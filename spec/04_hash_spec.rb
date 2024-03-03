@@ -60,7 +60,8 @@ describe Hash do
     expect(my_car[:parking_camera?]).to be true
   end
 
-  it 'does not have assisted steering' do
+
+  # Write a test that expresses each of the following statements.it 'does not have assisted steering' do
     expect(my_car[:assisted_steering?]).to be false
   end
 end
