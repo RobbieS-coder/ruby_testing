@@ -48,7 +48,7 @@ describe String do
     let(:favorite_food) { String.new('burritos') }
 
     it 'updates the favorite food' do
-      expect(favorite_food).to eql('burritos')
+      expect(favorite_food).to eq('burritos')
     end
   end
 end
