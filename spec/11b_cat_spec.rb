@@ -34,18 +34,17 @@ end
 # (see 11c_dog_spec.rb for Dog assignment)
 
 describe Cat do
-  # Create a subject with your choice of cat name and optional breed/color.
+  subject(:felix) { described_class.new('felix') }
 
-  # Write a test using the second shared_example to test that cat responds to
-  # talk ('meow').
-  context '' do
+  context 'when method is from specific class' do
+    include_examples 'shared method name'
   end
 
-  # remove the 'x' before running this test
-  xit 'is not hungry' do
+  it 'is not hungry' do
+    expect(felix.hungry?).to eql(false)
   end
 
-  # remove the 'x' before running this test
-  xit 'is hiding' do
+  it 'is hiding' do
+    expect(felix.hiding?).to eql(true)
   end
 end
