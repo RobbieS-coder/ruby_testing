@@ -45,13 +45,13 @@ describe NumberGame do
 
       # ASSIGNMENT #1
 
-      # Write a similar test to the one above, that uses a custom matcher
-      # instead of <, >, =.
       matcher :be_between_zero_and_nine do
+        match { |num| num >= 0 && num <= 9 }
       end
 
-      # remove the 'x' before running this test
-      xit 'is a number between 0 and 9' do
+      it 'is a number between 0 and 9' do
+        solution = game.solution
+        expect(solution).to be_between_zero_and_nine
       end
     end
   end
@@ -75,11 +75,11 @@ describe NumberGame do
 
     # ASSIGNMENT #2
 
-    # Create a new instance of NumberGame and write a test for when the @guess
-    # does not equal @solution.
     context 'when user guess is not correct' do
-      # remove the 'x' before running this test
-      xit 'is not game over' do
+      subject(:not_game_end) { described_class.new(4, '5') }
+
+      it 'is not game over' do
+        expect(not_game_end).not_to be_game_over
       end
     end
   end
@@ -93,7 +93,7 @@ describe NumberGame do
 
   describe '#verify_input' do
     subject(:game_check) { described_class.new }
-    # Note: #verify_input will only return a value if it matches /^[0-9]$/
+    # NOTE: #verify_input will only return a value if it matches /^[0-9]$/
 
     context 'when given a valid input as argument' do
       it 'returns valid input' do
@@ -105,9 +105,13 @@ describe NumberGame do
 
     # ASSIGNMENT #3
 
-    # Write a test for the following context.
     context 'when given invalid input as argument' do
-      xit 'returns nil' do
+      subject(:game_check) { described_class.new }
+
+      it 'returns nil' do
+        user_input = 'three'
+        verified_input = game_check.verify_input(user_input)
+        expect(verified_input).to eq(nil)
       end
     end
   end
@@ -164,17 +168,22 @@ describe NumberGame do
 
     # ASSIGNMENT #4
 
-    # Write a test for the following context.
     context 'when user inputs two incorrect values, then a valid input' do
       before do
+        invalid_input1 = 'a'
+        invalid_input2 = 'b'
+        valid_input = '5'
+        allow(game_loop).to receive(:player_input).and_return(invalid_input1, invalid_input2, valid_input)
       end
 
-      xit 'completes loop and displays error message twice' do
+      it 'completes loop and displays error message twice' do
+        expect(game_loop).to receive(:puts).with('Input error!').twice
+        game_loop.player_turn
       end
     end
   end
 
-  # It is unneccessary to write tests for methods that only contain puts
+  # It is unnecessary to write tests for methods that only contain puts
   # statements, like #final_message. Puts is a basic part of the standard
   # ruby library & is already well tested. Plus, most 'real world
   # applications' don't even output like this except to loggers.
@@ -197,22 +206,23 @@ describe NumberGame do
 
     # ASSIGNMENT #5
 
-    # Create a new instance of NumberGame, with specific values for @solution,
-    # @guess, and @count
     context 'when count is 2-3' do
-      # remove the 'x' before running this test
-      xit 'outputs correct phrase' do
-        congrats_phrase = "Congratulations! You picked the random number in 3 guesses!\n"
-        expect { game.final_message }.to output(congrats_phrase).to_stdout
+      subject(:game_two) { described_class.new(5, '5', 2) }
+
+      it 'outputs correct phrase' do
+        congrats_phrase = "Congratulations! You picked the random number in 2 guesses!\n"
+        expect { game_two.final_message }.to output(congrats_phrase).to_stdout
       end
     end
 
     # ASSIGNMENT #6
 
-    # Write a test for the following context.
     context 'when count is 4 and over' do
-      # remove the 'x' before running this test
-      xit 'outputs correct phrase' do
+      subject(:game_four) { described_class.new(5, '5', 4) }
+
+      it 'outputs correct phrase' do
+        hard_phrase = "That was hard. It took you 4 guesses!\n"
+        expect { game_four.final_message }.to output(hard_phrase).to_stdout
       end
     end
   end
